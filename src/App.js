@@ -12,19 +12,23 @@ const unsplash = new Unsplash({
 function App() {
   const [photos, setPhotos] = useState([])
   const [count] = useState(6)
-  const [keyWord] = useState('African')
+  const [keyWord, setKeyWord] = useState('')
   const [pages] = useState(Math.ceil(Math.random() * 9))
+  // const [isSearching, setSearching] = useState(false)
 
   useEffect(() => {
-    // console.log('rendered')
+    fetchPhotos()
+  }, [])
+
+  function fetchPhotos(searchTerm = 'African') {
     unsplash.search
-      .photos(keyWord, pages, count)
+      .photos(searchTerm, pages, count)
       .then(res => res.json())
       .then(({ results }) => {
         setPhotos(results)
         console.log(results)
       })
-  }, [count, keyWord, pages])
+  }
 
   if (!photos.length) {
     return <p>Loading...</p>
@@ -34,13 +38,20 @@ function App() {
     <div className='App'>
       <div className='backdrop'>
         <div className='container'>
-          <form>
+          <form
+            onSubmit={e => {
+              e.preventDefault()
+              fetchPhotos(keyWord)
+            }}
+          >
             <div className='input-group'>
               <FaSearch className='search-icon' />
               <input
                 type='search'
                 className='search-field'
                 placeholder='Search for photo'
+                value={keyWord}
+                onChange={e => setKeyWord(e.target.value)}
               />
             </div>
           </form>

@@ -13,9 +13,10 @@ function App() {
   const [photos, setPhotos] = useState([])
   const [count] = useState(6)
   const [keyWord, setKeyWord] = useState('')
+  const [searchTerm, setSearchTerm] = useState(null)
   const [pages] = useState(Math.ceil(Math.random() * 9))
   const [isSearching, setSearching] = useState(false)
-  const [fullImgUrl, setFullImgUrl] = useState(null)
+  const [fullImage, setFullImage] = useState(null)
 
   const fetchPhotos = useCallback(
     (searchTerm = 'African') => {
@@ -35,14 +36,38 @@ function App() {
     fetchPhotos()
   }, [fetchPhotos])
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
+    setSearchTerm(null)
     setSearching(true)
-    fetchPhotos(keyWord)
+    await fetchPhotos(keyWord)
+    setSearchTerm(keyWord)
   }
 
   return (
     <div className='App'>
+      {fullImage !== null && (
+        <div className='modal'>
+          <div className='container'>
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <button className='modal-btn'>&times;</button>
+              </div>
+              <div className='modal-body'>
+                <img
+                  src={fullImage.url}
+                  alt={fullImage.alt}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    borderRadius: '7px'
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className='backdrop'>
         <div className='container'>
           <form onSubmit={handleSubmit}>
@@ -58,6 +83,13 @@ function App() {
               />
             </div>
           </form>
+          {isSearching}
+          <h1 className='text'>
+            {isSearching && `Searching for "${keyWord}" `}
+            {!isSearching &&
+              searchTerm !== null &&
+              `Search results for "${searchTerm}" `}
+          </h1>
         </div>
       </div>
       <div className='content'>
@@ -68,7 +100,7 @@ function App() {
                 <PhotoCard
                   key={photo.id}
                   photo={photo}
-                  setFullImgUrl={setFullImgUrl}
+                  setFullImage={setFullImage}
                 />
               ))}
 

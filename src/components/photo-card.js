@@ -1,19 +1,27 @@
 import React from 'react'
 
-function PhotoCard({ photo, setFullImage }) {
+function PhotoCard({ photo, setImage }) {
   return (
     <div className='card'>
       <img
         onClick={e => {
-          setFullImage({
-            url: e.target.dataset.full,
-            alt: e.target.dataset.alt
+          document.body.style.overflow = 'hidden'
+          const {
+            dataset: { url, alt, name, location }
+          } = e.target
+          setImage({
+            url,
+            alt,
+            name,
+            location
           })
         }}
         className='card-image'
         src={photo.urls.small}
         alt={photo.alt_description}
-        data-full={photo.urls.full}
+        data-name={photo.user.name}
+        data-location={photo.user.location}
+        data-url={photo.urls.full}
         data-alt={photo.alt_description}
       />
       <div className='card-info'>

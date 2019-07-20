@@ -1,6 +1,16 @@
+@keyframes fade {
+  from {
+    transition: none;
+  }
+  to {
+    background: rgb(177, 177, 177);
+    transition: all 0.5s ease-in-out;
+  }
+}
+
 .container {
   width: 100%;
-  max-width: 800px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
@@ -8,7 +18,7 @@
 
 .backdrop {
   height: 250px;
-  background: #f0f0f0;
+  background: #ccc;
   position: relative;
 }
 
@@ -54,21 +64,75 @@ form {
   top: -40px;
   margin: auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding: 0 3rem;
+  padding: 0 2rem;
 }
 
-.card::before {
+.card,
+.card-loading {
+  position: relative;
+  margin-bottom: 1.2rem;
+  width: calc(33.33% - 2rem);
+  margin: 0 1rem 1.5rem 1rem;
+}
+
+.card-loading {
+  width: 500px;
+  height: 250px;
+  background: #f0f0f0;
+  border-radius: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.card-loading::before {
+  content: '';
+  position: absolute;
+  padding-bottom: 1rem;
+  bottom: 3rem;
+  left: 1rem;
+  width: 70%;
+  background: #ccc;
+  animation-name: fade;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.card-loading::after {
+  content: '';
+  position: absolute;
+  padding-bottom: 1rem;
+  bottom: 1.2rem;
+  left: 1rem;
+  width: 50%;
+  background: #ccc;
+  animation-name: fade;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.card-image {
+  width: 100%;
+  border-radius: 0.8rem;
+  display: block;
+  cursor: pointer;
+}
+
+.card-overlay {
   content: '';
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.2);
   z-index: 1;
+  border-radius: 0.8rem;
 }
 
 .card-info {
@@ -87,4 +151,22 @@ form {
 .card-info p:first-child {
   font-size: 1rem;
   font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+  .card,
+  .card-loading {
+    width: calc(50% - 2rem);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .container__inner {
+    flex-direction: column;
+  }
+
+  .card,
+  .card-loading {
+    width: 100%;
+  }
 }

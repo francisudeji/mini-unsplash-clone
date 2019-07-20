@@ -3,6 +3,7 @@ import Unsplash from 'unsplash-js'
 import { FaSearch } from 'react-icons/fa'
 import './App.css'
 import PhotoCard from './components/photo-card'
+import Modal from './components/modal'
 
 const unsplash = new Unsplash({
   applicationId: process.env.REACT_APP_APP_ID,
@@ -16,7 +17,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState(null)
   const [pages] = useState(Math.ceil(Math.random() * 9))
   const [isSearching, setSearching] = useState(false)
-  const [fullImage, setFullImage] = useState(null)
+  const [image, setImage] = useState(null)
 
   const fetchPhotos = useCallback(
     (searchTerm = 'African') => {
@@ -46,28 +47,7 @@ function App() {
 
   return (
     <div className='App'>
-      {fullImage !== null && (
-        <div className='modal'>
-          <div className='container'>
-            <div className='modal-content'>
-              <div className='modal-header'>
-                <button className='modal-btn'>&times;</button>
-              </div>
-              <div className='modal-body'>
-                <img
-                  src={fullImage.url}
-                  alt={fullImage.alt}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    borderRadius: '7px'
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {image !== null && <Modal setImage={setImage} image={image} />}
       <div className='backdrop'>
         <div className='container'>
           <form onSubmit={handleSubmit}>
@@ -97,11 +77,7 @@ function App() {
           <div className='content__inner'>
             {photos.length > 0 &&
               photos.map(photo => (
-                <PhotoCard
-                  key={photo.id}
-                  photo={photo}
-                  setFullImage={setFullImage}
-                />
+                <PhotoCard key={photo.id} photo={photo} setImage={setImage} />
               ))}
 
             {!photos.length || isSearching ? (

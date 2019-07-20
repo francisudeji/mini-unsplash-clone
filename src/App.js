@@ -7,13 +7,14 @@ import Modal from './components/modal'
 
 const unsplash = new Unsplash({
   applicationId:
-    process.env.NODE_ENV === 'production'
-      ? process.env.APP_ID
-      : process.env.REACT_APP_APP_ID,
-  secret:
-    process.env.NODE_ENV === 'production'
-      ? process.env.APP_SECRET
-      : process.env.REACT_APP_APP_SECRET
+    '0c55ce46303974c54b2a67653b463ecfcf01f35facbf7af1445476b25ff17efe',
+  // process.env.NODE_ENV === 'production'
+  //   ? process.env.APP_ID
+  //   : process.env.REACT_APP_APP_ID,
+  secret: 'ebafa87e3761c19b11ea9b7effe375e6d93166b5599e242826e39a9d768babd2'
+  // process.env.NODE_ENV === 'production'
+  //   ? process.env.APP_SECRET
+  //   : process.env.REACT_APP_APP_SECRET
 })
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           setPhotos(results)
           console.log(results)
         })
+        .catch(err => console.log(err))
     },
     [count, pages]
   )

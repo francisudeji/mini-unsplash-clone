@@ -1,24 +1,16 @@
 import React from 'react'
 
-function PhotoCard({ photo }) {
+function PhotoCard({ photo, setFullImgUrl }) {
   return (
-    <div
-      style={{
-        width: '30%',
-        position: 'relative',
-        marginBottom: '1.2rem'
-      }}
-      className='card'
-    >
+    <div className='card'>
       <img
-        className='card-img'
-        style={{
-          width: '100%',
-          borderRadius: '.8rem',
-          display: 'block'
+        onClick={e => {
+          setFullImgUrl(e.target.dataset.full)
         }}
-        src={photo.urls.thumb}
+        className='card-image'
+        src={photo.urls.small}
         alt={photo.alt_description}
+        data-full={photo.urls.full}
       />
       <div className='card-info'>
         <p>{photo.user.name}</p>

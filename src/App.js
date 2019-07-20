@@ -6,8 +6,14 @@ import PhotoCard from './components/photo-card'
 import Modal from './components/modal'
 
 const unsplash = new Unsplash({
-  applicationId: process.env.REACT_APP_APP_ID,
-  secret: process.env.REACT_APP_APP_SECRET
+  applicationId:
+    process.env.NODE_ENV === 'production'
+      ? process.env.APP_ID
+      : process.env.REACT_APP_APP_ID,
+  secret:
+    process.env.NODE_ENV === 'production'
+      ? process.env.APP_SECRET
+      : process.env.REACT_APP_APP_SECRET
 })
 
 function App() {
